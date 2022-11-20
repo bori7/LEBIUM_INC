@@ -26,6 +26,27 @@
   --color-primary-800: rgb(var(--tw-color-primary-800)); /* #075985 */
   --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
   /* #endregion  /**======== Primary Color =========== */
+
+  --tw-color-coil-50: 240 249 255;
+  --tw-color-coil-100: 224 242 254;
+  --tw-color-coil-200: 186 230 253;
+  --tw-color-coil-300: 84 22 100;
+  --tw-color-coil-400: 40 29 100;
+  --tw-color-coil-500: 44 13 100;
+  --tw-color-coil-600: 27 23 100;
+  --tw-color-coil-700: 40 18 100;
+  --tw-color-coil-800: 42 20 100;
+  --tw-color-coil-900: 46 10 100;
+  --color-coil-50: rgb(var(--tw-color-coil-50)); /* #f0f9ff */
+  --color-coil-100: rgb(var(--tw-color-coil-100)); /* #e0f2fe */
+  --color-coil-200: rgb(var(--tw-color-coil-200)); /* #bae6fd */
+  --color-coil-300: rgb(var(--tw-color-coil-300)); /* #7dd3fc */
+  --color-coil-400: rgb(var(--tw-color-coil-400)); /* #38bdf8 */
+  --color-coil-500: rgb(var(--tw-color-coil-500)); /* #0ea5e9 */
+  --color-coil-600: rgb(var(--tw-color-coil-600)); /* #0284c7 */
+  --color-coil-700: rgb(var(--tw-color-coil-700)); /* #0369a1 */
+  --color-coil-800: rgb(var(--tw-color-coil-800)); /* #262C37*/
+  --color-coil-900: rgb(var(--tw-color-coil-900)); /* #0c4a6e */
 }
 
 @layer base {
