@@ -35,12 +35,17 @@ export default function Header() {
             </div>
 
             <div className='ml-4 flex w-64  items-center justify-center rounded-xl bg-slate-800 hover:border hover:border-slate-500'>
-              <UnstyledLink
+              {/* <UnstyledLink
                 href='#'
                 className='w-3/4 px-4 py-2 text-xs text-gray-400'
               >
                 Search for Games
-              </UnstyledLink>
+              </UnstyledLink> */}
+              <input
+                className='active k:border-slate-500 w-3/4 rounded-l-xl bg-slate-800 px-4  py-2 text-xs text-gray-400 hover:border hover:border-slate-500 active:border'
+                placeholder=' Search for Games'
+                type='text'
+              />
               <div className='grid w-1/4 justify-items-end p-2 '>
                 <UnstyledLink href='#' className='  text-sm text-gray-400'>
                   O
