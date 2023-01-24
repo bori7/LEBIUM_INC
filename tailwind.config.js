@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         primary: ['Inter', ...fontFamily.sans],
+        space_grotesk: ['var(--font-space_grotesk)', ...fontFamily.sans],
       },
       colors: {
         primary: {
@@ -26,6 +27,10 @@ module.exports = {
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
         },
         dark: '#222222',
+        button: {
+          violet: 'hsl(278, 68%, 11%)',
+          dark_violet: 'hsl(279, 6%, 55%)',
+        },
         coil: {
           // Customize it on globals.css :root
           50: 'rgb(var(--tw-color-coil-50) / <alpha-value>)',
@@ -64,6 +69,11 @@ module.exports = {
       animation: {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
+      },
+      backgroundImage: {
+        'left-pane': "url('/assets/images/bg-main-desktop.png')",
+        'card-front': "url('/assets/images/bg-card-front.png')",
+        'card-back': "url('/assets/images/bg-card-back.png')",
       },
     },
   },
