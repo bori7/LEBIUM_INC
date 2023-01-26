@@ -15,9 +15,10 @@ export default function CardInput() {
     cvc,
     setCVC,
     error,
-    errorFunc,
     validateCardDetails,
     setStep,
+    validateAllCardInputs,
+    generalError,
   } = useCardInputContext();
 
   const borderStyle = (err: string) => {
@@ -32,7 +33,8 @@ export default function CardInput() {
     return bstyle;
   };
   return (
-    <div className='h-4/7 flex w-2/5 flex-col '>
+    <div className='h-4/7 flex w-2/5 flex-col'>
+      <p className='px-3 text-lg text-red-500'>{generalError}</p>
       <div className='mb-2  p-3'>
         <label
           htmlFor='card_holder_name'
@@ -79,7 +81,7 @@ export default function CardInput() {
           value={cardNo}
           onChange={(e) => {
             setCardNo(e.target.value?.trim());
-            validateCardDetails(e.target.value?.trim(), errorFunc.cardno);
+            validateCardDetails(e.target.value?.trim(), 'cardno');
           }}
         />
         <p className='mt-2 text-sm text-red-400'> {error.cardno}</p>
@@ -107,10 +109,7 @@ export default function CardInput() {
                 value={expMonth}
                 onChange={(e) => {
                   setExpMonth(e.target.value?.trim());
-                  validateCardDetails(
-                    e.target.value?.trim(),
-                    errorFunc.expmonth
-                  );
+                  validateCardDetails(e.target.value?.trim(), 'expmonth');
                 }}
               />
             </div>
@@ -128,10 +127,7 @@ export default function CardInput() {
                 value={expYear}
                 onChange={(e) => {
                   setExpYear(e.target.value?.trim());
-                  validateCardDetails(
-                    e.target.value?.trim(),
-                    errorFunc.expyear
-                  );
+                  validateCardDetails(e.target.value?.trim(), 'expyear');
                 }}
               />
             </div>
@@ -162,7 +158,7 @@ export default function CardInput() {
             value={cvc}
             onChange={(e) => {
               setCVC(e.target.value?.trim());
-              validateCardDetails(e.target.value?.trim(), errorFunc.cvc);
+              validateCardDetails(e.target.value?.trim(), 'cvc');
             }}
           />
           <p className='mt-2 text-sm text-red-400'> {error.cvc}</p>
@@ -176,8 +172,9 @@ export default function CardInput() {
           focus:ring-4 focus:ring-purple-300 dark:bg-purple-600
            dark:hover:bg-purple-700 dark:focus:ring-purple-900'
           onClick={() => {
-            // console.log('here', step);
-            setStep(1);
+            if (validateAllCardInputs()) {
+              setStep(2);
+            }
           }}
         >
           Confirm

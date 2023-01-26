@@ -11,17 +11,23 @@ export interface ICardInputContextProps {
   setExpMonth: (expMonth: string) => void;
   setExpYear: (expYear: string) => void;
   setCVC: (cvc: string) => void;
-  error: {
-    cardno: string;
-    expmonth: string;
-    expyear: string;
-    cvc: string;
-  };
-  errorFunc: {
-    cardno: (cardno: string) => void;
-    expmonth: (expmonth: string) => void;
-    expyear: (expyear: string) => void;
-    cvc: (cvc: string) => void;
-  };
-  validateCardDetails: (value: string, func: (mess: string) => void) => void;
+  error: ICardErrorContext;
+  // errorFunc: ICardErrorFuncContext;
+  validateCardDetails: (value: string, field: string) => void;
+  validateAllCardInputs: () => boolean;
+  generalError: string;
+}
+
+export interface ICardErrorContext {
+  cardno: string;
+  expmonth: string;
+  expyear: string;
+  cvc: string;
+}
+
+export interface ICardErrorFuncContext {
+  cardno: (cardno: string) => void;
+  expmonth: (expmonth: string) => void;
+  expyear: (expyear: string) => void;
+  cvc: (cvc: string) => void;
 }

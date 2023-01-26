@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
-import { ICardInputContextProps } from '@/types/contexts';
+import {
+  ICardErrorFuncContext,
+  ICardInputContextProps,
+} from '@/types/contexts';
 
 export const CardInputContext = React.createContext<ICardInputContextProps>({
   cardName: '',
@@ -15,14 +18,16 @@ export const CardInputContext = React.createContext<ICardInputContextProps>({
   setExpMonth: () => null,
   setExpYear: () => null,
   setCVC: () => null,
-  error: { cardno: '', expmonth: '', expyear: '', cvc: 'cvcError' },
-  errorFunc: {
-    cardno: () => null,
-    expmonth: () => null,
-    expyear: () => null,
-    cvc: () => null,
-  },
+  error: { cardno: '', expmonth: '', expyear: '', cvc: '' },
+  // errorFunc: {
+  //   cardno: () => null,
+  //   expmonth: () => null,
+  //   expyear: () => null,
+  //   cvc: () => null,
+  // },
   validateCardDetails: () => null,
+  validateAllCardInputs: () => false,
+  generalError: '',
 });
 
 export const CardInputContextProvider = (props: {
@@ -45,13 +50,35 @@ export const CardInputContextProvider = (props: {
   const [expMonthError, setExpMonthError] = useState('');
   const [expYearError, setExpYearError] = useState('');
   const [cvcError, setCVCError] = useState('');
-  const [step, setStep] = useState(1);
+  const [stepC, setStepC] = useState(1);
+  const [generalError, setGeneralError] = useState('');
 
   const error = {
     cardno: cardNoError,
     expmonth: expMonthError,
     expyear: expYearError,
     cvc: cvcError,
+  };
+
+  const cardDetails = {
+    cardno: cardNo,
+    expmonth: expMonth,
+    expyear: expYear,
+    cvc: cvc,
+  };
+
+  const errorDisplay = {
+    cardno: 'Card Number',
+    expmonth: 'Exp. Month',
+    expyear: 'Exp. Year',
+    cvc: 'CVC',
+  };
+
+  const inputLen = {
+    cardno: 16,
+    expmonth: 2,
+    expyear: 2,
+    cvc: 3,
   };
 
   const errorFunc = {
@@ -61,19 +88,45 @@ export const CardInputContextProvider = (props: {
     cvc: setCVCError,
   };
 
-  const validateCardDetails = (
-    value: string,
-    func: (message: string) => void
-  ) => {
+  const setStep = (s: number) => {
+    setStepC(s);
+  };
+  type OnlyKeys = keyof ICardErrorFuncContext;
+  const validateCardDetails = (value: string, field: string) => {
     if (value == '') {
-      func("Can't be blank");
+      errorFunc[field as OnlyKeys]("Can't be blank");
       return;
     } else if (/[a-zA-Z]/.test(value)) {
-      func('Numbers only');
+      errorFunc[field as OnlyKeys]('Wrong Format');
       return;
     } else {
-      func('');
+      errorFunc[field as OnlyKeys]('');
     }
+  };
+
+  const validateAllCardInputs = () => {
+    for (const k of Object.keys(error)) {
+      if (error[k as OnlyKeys]) {
+        // console.log('s1', 'trouble');
+        setGeneralError('Invalid Inputs');
+        return false;
+      }
+      const fieldLength = inputLen[k as OnlyKeys];
+      if (fieldLength > cardDetails[k as OnlyKeys].length) {
+        errorFunc[k as OnlyKeys](
+          `${errorDisplay[k as OnlyKeys]} must be ${fieldLength} digits`
+        );
+        return false;
+      }
+    }
+    if (!cardName || !cardNo || !expMonth || !expYear || !cvc) {
+      // console.log('s2', 'trouble');
+      setGeneralError('No Blank Inputs');
+      return false;
+    }
+    setGeneralError('');
+    // console.log('s', 'No trouble');
+    return true;
   };
 
   return (
@@ -84,7 +137,7 @@ export const CardInputContextProvider = (props: {
         expMonth: expMonth,
         expYear: expYear,
         cvc,
-        step,
+        step: stepC,
         setStep,
         setCardName,
         setCardNo,
@@ -92,8 +145,9 @@ export const CardInputContextProvider = (props: {
         setExpYear,
         setCVC,
         error,
-        errorFunc,
         validateCardDetails,
+        validateAllCardInputs,
+        generalError,
       }}
     >
       {props.children}

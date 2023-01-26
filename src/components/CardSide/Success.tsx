@@ -3,7 +3,7 @@ import React from 'react';
 import { useCardInputContext } from '@/hooks/contexts';
 
 export default function Success() {
-  const { step, setStep } = useCardInputContext();
+  const { setStep } = useCardInputContext();
   return (
     <div className='h-4/7 flex w-2/5 flex-col p-3'>
       <div className=' mb-2  flex justify-center '>
@@ -25,8 +25,7 @@ export default function Success() {
            focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700
             dark:focus:ring-purple-900'
           onClick={() => {
-            // console.log('here now', step);
-            setStep(step + 2);
+            setStep(1);
           }}
         >
           Continue
