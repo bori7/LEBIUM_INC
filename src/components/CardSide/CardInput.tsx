@@ -1,6 +1,36 @@
-import * as React from 'react';
+import React from 'react';
+
+import { useCardInputContext } from '@/hooks/contexts';
 
 export default function CardInput() {
+  const {
+    cardName,
+    setCardName,
+    cardNo,
+    setCardNo,
+    expMonth,
+    setExpMonth,
+    expYear,
+    setExpYear,
+    cvc,
+    setCVC,
+    error,
+    errorFunc,
+    validateCardDetails,
+    setStep,
+  } = useCardInputContext();
+
+  const borderStyle = (err: string) => {
+    const bstyle = `border
+    border-${err ? 'red-500' : 'purple-800'} 
+    focus:border-${err ? 'red-500' : 'purple-800'}  
+    focus:ring-${err ? 'red-500' : 'purple-800'}  
+    dark:border-${err ? 'red-400' : 'purple-800'}  
+    dark:focus:ring-${err ? 'red-400' : 'purple-800'}
+    focus:outline-none focus:ring-2 ring-opacity-50
+    `;
+    return bstyle;
+  };
   return (
     <div className='h-4/7 flex w-2/5 flex-col '>
       <div className='mb-2  p-3'>
@@ -13,13 +43,18 @@ export default function CardInput() {
         <input
           type='text'
           id='card_holder_name'
-          className='block h-12
-          w-full rounded-lg border border-gray-300 bg-gray-50
-          p-2.5 text-lg  text-gray-900 placeholder-gray-500 placeholder-opacity-50 focus:border-button-dark_violet
-          dark:border-button-dark_violet dark:bg-gray-700 dark:text-white
-          dark:placeholder-gray-400 dark:focus:ring-button-dark_violet first-letter:dark:focus:ring-button-dark_violet'
+          className={`block
+          h-12 w-full rounded-lg bg-gray-50 
+          p-2.5 text-lg  text-purple-900 placeholder-gray-500 placeholder-opacity-50 
+           dark:bg-gray-700 dark:text-white ${borderStyle('')}
+          dark:placeholder-gray-400 dark:focus:ring-button-dark_violet first-letter:dark:focus:ring-button-dark_violet`}
           placeholder='e.g. Jane Appleseed'
           required
+          maxLength={24}
+          value={cardName}
+          onChange={(e) => {
+            setCardName(e.target.value);
+          }}
         />
       </div>
       <div className='my-3  p-3'>
@@ -32,13 +67,22 @@ export default function CardInput() {
         <input
           type='text'
           id='card_number'
-          className='block h-12 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 
-        text-lg text-gray-900 placeholder-gray-500 placeholder-opacity-50 focus:border-button-dark_violet
-          dark:border-button-dark_violet dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
-          dark:focus:border-button-dark_violet'
+          className={`block h-12 w-full rounded-lg  bg-gray-50 p-2.5 
+           text-lg text-purple-900 placeholder-gray-500 placeholder-opacity-50 
+           dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
+            ${borderStyle(error.cardno)}
+           
+          `}
           placeholder='e.g. 1234 5678 9123 0000'
           required
+          maxLength={16}
+          value={cardNo}
+          onChange={(e) => {
+            setCardNo(e.target.value?.trim());
+            validateCardDetails(e.target.value?.trim(), errorFunc.cardno);
+          }}
         />
+        <p className='mt-2 text-sm text-red-400'> {error.cardno}</p>
       </div>
       <div className='flex space-x-3 p-3'>
         <div className='w-1/2'>
@@ -49,27 +93,52 @@ export default function CardInput() {
             EXP. DATE (MM/YY)
           </label>
           <div className='flex space-x-2'>
-            <input
-              type='text'
-              id='exp_date'
-              className='block h-12 w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 
-            text-lg text-gray-900 placeholder-gray-500 placeholder-opacity-50 focus:border-button-dark_violet
-              dark:border-button-dark_violet dark:bg-gray-700 dark:text-white 
-             dark:placeholder-gray-400 dark:focus:border-button-dark_violet '
-              placeholder='MM'
-              required
-            />
-            <input
-              type='text'
-              id='exp_date'
-              className='block h-12 w-1/2 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-lg 
-             text-gray-900 placeholder-gray-500 placeholder-opacity-50 focus:border-button-dark_violet
-              dark:border-button-dark_violet dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
-               dark:focus:ring-button-dark_violet'
-              placeholder='YY'
-              required
-            />
+            <div className=''>
+              <input
+                type='text'
+                id='exp_date'
+                className={`block h-12 w-full rounded-lg  bg-gray-50 p-2.5 
+            text-lg text-purple-900 placeholder-gray-500 placeholder-opacity-50
+               dark:bg-gray-700 dark:text-white 
+             dark:placeholder-gray-400  ${borderStyle(error.expmonth)}`}
+                placeholder='MM'
+                maxLength={2}
+                required
+                value={expMonth}
+                onChange={(e) => {
+                  setExpMonth(e.target.value?.trim());
+                  validateCardDetails(
+                    e.target.value?.trim(),
+                    errorFunc.expmonth
+                  );
+                }}
+              />
+            </div>
+            <div className=''>
+              <input
+                type='text'
+                id='exp_date'
+                className={`block h-12 w-full rounded-lg  bg-gray-50 p-2.5 text-lg 
+             text-purple-900 placeholder-gray-500 placeholder-opacity-50 
+               dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
+                ${borderStyle(error.expyear)}`}
+                placeholder='YY'
+                required
+                maxLength={2}
+                value={expYear}
+                onChange={(e) => {
+                  setExpYear(e.target.value?.trim());
+                  validateCardDetails(
+                    e.target.value?.trim(),
+                    errorFunc.expyear
+                  );
+                }}
+              />
+            </div>
           </div>
+          <p className='mt-2 text-sm text-red-400'>
+            {error.expyear || error.expmonth}
+          </p>
         </div>
         <div>
           <label
@@ -81,19 +150,35 @@ export default function CardInput() {
           <input
             type='text'
             id='first_name'
-            className='block h-12 w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-lg
-           text-gray-900 placeholder-gray-500 placeholder-opacity-50  focus:ring-button-dark_violet
-            dark:border-button-dark_violet dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-button-dark_violet
-             '
+            className={`block h-12 w-full  rounded-lg  bg-gray-50 p-2.5 text-lg
+           text-purple-900 placeholder-gray-500 placeholder-opacity-50 
+             dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
+            ${borderStyle(error.cvc)}
+             `}
             placeholder='e.g. 123'
+            maxLength={3}
+            minLength={3}
             required
+            value={cvc}
+            onChange={(e) => {
+              setCVC(e.target.value?.trim());
+              validateCardDetails(e.target.value?.trim(), errorFunc.cvc);
+            }}
           />
+          <p className='mt-2 text-sm text-red-400'> {error.cvc}</p>
         </div>
       </div>
       <div className='align-items-center flex justify-center p-3'>
         <button
           type='button'
-          className='mb-2 w-full rounded-lg bg-button-violet px-5 py-4 text-center text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
+          className='mb-2 w-full rounded-lg bg-button-violet px-5 py-4 text-center 
+          text-sm font-medium text-white hover:bg-purple-800 focus:outline-none 
+          focus:ring-4 focus:ring-purple-300 dark:bg-purple-600
+           dark:hover:bg-purple-700 dark:focus:ring-purple-900'
+          onClick={() => {
+            // console.log('here', step);
+            setStep(1);
+          }}
         >
           Confirm
         </button>

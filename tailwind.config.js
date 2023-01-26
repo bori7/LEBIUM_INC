@@ -74,6 +74,7 @@ module.exports = {
         'left-pane': "url('/assets/images/bg-main-desktop.png')",
         'card-front': "url('/assets/images/bg-card-front.png')",
         'card-back': "url('/assets/images/bg-card-back.png')",
+        'icon-complete': "url('/assets/images/icon-complete.svg')",
       },
     },
   },
