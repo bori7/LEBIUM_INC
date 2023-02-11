@@ -34,7 +34,7 @@ export default function CardInputMobile() {
     return bstyle;
   };
   return (
-    <div className='h-4/7  flex flex-col  2md:max-3xl:mt-0 2md:max-3xl:w-6/12'>
+    <div className='h-4/7 flex flex-col 2md:max-3xl:mt-0 2md:max-3xl:w-6/12'>
       <p className='px-3 text-base text-red-600'>{generalError}</p>
       <div className='mb-2  p-3'>
         <label
