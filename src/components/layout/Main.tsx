@@ -8,7 +8,7 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import Vercel from '~/svg/Vercel.svg';
 function Main() {
   return (
-    <main>
+    <main className=''>
       <section className='bg-white'>
         <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
           <Vercel className='text-5xl' />

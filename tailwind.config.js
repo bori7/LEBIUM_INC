@@ -76,6 +76,12 @@ module.exports = {
         'card-back': "url('/assets/images/bg-card-back.png')",
         'icon-complete': "url('/assets/images/icon-complete.svg')",
       },
+      screens: {
+        '3xl': '3600px',
+        '2md': '900px',
+        '1xmd': '750px',
+        // '1md': '900px',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],
